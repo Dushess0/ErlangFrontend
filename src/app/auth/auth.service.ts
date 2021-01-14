@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-export const serverUrl = "http://localhost:8080";
+export const serverUrl = "http://192.168.194.154:8080";
 @Injectable({
   providedIn: 'root'
 })
