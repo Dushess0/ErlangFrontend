@@ -1,0 +1,31 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" opened mode="side">
+
+
+        <mat-list>
+            <mat-list-item>Test room 1</mat-list-item>
+        </mat-list>
+    </mat-drawer>
+
+
+
+
+    <div  #Scroll class="messages">
+
+        <mat-list *ngIf="messages.length>0">
+            <mat-list-item *ngFor="let item of messages">{{item}}</mat-list-item>
+        </mat-list>
+    </div>
+    <form (submit)="sendMessage()">
+        <mat-form-field class="example-full-width">
+            <mat-label>Message</mat-label>
+            <input required matInput placeholder="Enter your message here" [(ngModel)]="currentMessage" name="currentMessage">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" > Send </button>
+    </form>
+
+
+
+
+</mat-drawer-container>

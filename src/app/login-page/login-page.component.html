@@ -1,0 +1,18 @@
+
+<mat-card>
+    <h1>It is not FCKN Java!</h1>
+    <form class="form">
+        <mat-form-field class="example-full-width">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Your nickname" [(ngModel)]="username" required name="username">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Do you remember your passoword?" [(ngModel)]="password"  required name="password" >
+        </mat-form-field>
+
+        <button mat-button color="primary" mat-raised-button  (click)="login()" >Login</button>
+        <button mat-button  (click)="register()" >Register</button>
+    </form>
+</mat-card>
