@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatSelectionList } from '@angular/material/list';
 import { interval } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { ChatService } from '../chat.service';
 
 @Component({
@@ -9,11 +11,16 @@ import { ChatService } from '../chat.service';
 })
 export class ChatComponent implements OnInit {
 
+
+  @ViewChild('roomMatList')
+  roomMatList?: MatSelectionList;
+
   showRooms: boolean = true;
   messages: string[] = [];
-  currentRoom: string = "Test room";
+  rooms: string[] = [];
+  currentRoom: number = 0;
   currentMessage: string = "";
-  constructor(public chat: ChatService) {
+  constructor(public chat: ChatService, private auth: AuthService) {
     this.myScrollContainer = {} as ElementRef<any>;
   }
 
@@ -23,15 +30,25 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollToBottom();
+    this.rooms = this.auth.rooms;
     interval(600).subscribe(
-      data=>
-      this.chat.getMessagesInRoom(this.currentRoom).subscribe(mess=>this.messages=mess.chatLog))
+      data =>
+        this.chat.getMessagesInRoom(this.rooms[this.currentRoom]).subscribe(
+          mess => {
+            if (this.messages.length != mess.chatLog.length) {
+              this.messages = mess.chatLog
+              this.scrollToBottom()
+            }
+          }
 
-      
+        ));
+
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+
+    this.scrollToBottom()
+
   }
 
   scrollToBottom(): void {
@@ -40,12 +57,25 @@ export class ChatComponent implements OnInit {
     } catch (err) { }
   }
   sendMessage() {
-    this.chat.sendMessage(this.currentMessage, this.currentRoom).subscribe(data => {
-      this.currentMessage = "";
-    })
-  }
-  switchRoom() {
 
+    if (this.currentRoom != undefined && this.auth.rooms.length != 0) {
+      this.chat.sendMessage(this.currentMessage, this.rooms[this.currentRoom]).subscribe(data => {
+        this.currentMessage = "";
+      })
+    }
+
+  }
+  switchRoom(room: string) {
+    this.currentRoom = this.rooms.indexOf(room);
+    console.log(this.currentRoom);
+  }
+  createRoom() {
+    const result = prompt("Enter room name");
+    if (result) {
+      this.rooms.push(result);
+      this.switchRoom(result);
+      this.sendMessage();
+    }
   }
 
 }

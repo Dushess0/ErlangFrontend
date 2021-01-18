@@ -25,7 +25,7 @@ export class LoginPageComponent implements OnInit {
   }
   register() {
     if (this.username && this.password)
-      this.auth.register(this.username, this.password);
+      this.auth.login(this.username, this.password);
   }
 
 }

@@ -18,10 +18,11 @@ export class ChatService {
 
 
   public sendMessage(message: string, room: string): Observable<ChatLogResponseModel> {
-    return this.http.get<ChatLogResponseModel>(`${serverUrl}/room?user=${this.auth.userName}&room=${room}&message=${message}`);
+
+    return this.http.get<ChatLogResponseModel>(`${serverUrl}/room?user=${this.auth.userName}&room=${room}&message=${message}&password=${this.auth.password}`);
   }
   public getMessagesInRoom(room: string): Observable<ChatLogResponseModel> {
-    return this.http.get<ChatLogResponseModel>(`${serverUrl}/room?user=${this.auth.userName}&room=${room}`);
+    return this.http.get<ChatLogResponseModel>(`${serverUrl}/room?user=${this.auth.userName}&room=${room}&password=${this.auth.password}`);
   }
 
 
