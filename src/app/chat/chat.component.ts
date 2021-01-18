@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
 
   showRooms: boolean = true;
   messages: string[] = [];
+  autoScrolling = true;
   rooms: string[] = [];
   currentRoom: number = 0;
   currentMessage: string = "";
@@ -37,18 +38,19 @@ export class ChatComponent implements OnInit {
           mess => {
             if (this.messages.length != mess.chatLog.length) {
               this.messages = mess.chatLog
-              this.scrollToBottom()
             }
           }
-
         ));
-
   }
 
+  autoScrollClicked() {
+    this.autoScrolling = !this.autoScrolling;
+
+  }
   ngAfterViewChecked() {
-
-    this.scrollToBottom()
-
+    if (this.autoScrolling) {
+      this.scrollToBottom();
+    }
   }
 
   scrollToBottom(): void {
@@ -57,13 +59,11 @@ export class ChatComponent implements OnInit {
     } catch (err) { }
   }
   sendMessage() {
-
     if (this.currentRoom != undefined && this.auth.rooms.length != 0) {
       this.chat.sendMessage(this.currentMessage, this.rooms[this.currentRoom]).subscribe(data => {
         this.currentMessage = "";
       })
     }
-
   }
   switchRoom(room: string) {
     this.currentRoom = this.rooms.indexOf(room);

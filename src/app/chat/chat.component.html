@@ -7,7 +7,7 @@
                 {{room}}
             </mat-list-option>
         </mat-selection-list>
-        <button  mat-button (click)="createRoom()" >Create Room</button>
+        <button mat-button (click)="createRoom()">Create Room</button>
     </mat-drawer>
 
 
@@ -16,18 +16,32 @@
     <div #Scroll class="messages">
 
         <mat-list *ngIf="messages.length>0">
-            <mat-list-item *ngFor="let item of messages">{{item}}</mat-list-item>
+            <mat-list-item *ngFor="let item of messages">
+
+                <h1 *ngIf="item.includes('joined the room!')">{{item}}</h1>
+                <p *ngIf="!item.includes('joined the room!')">{{item}}</p>
+
+            </mat-list-item>
         </mat-list>
     </div>
-    <form (submit)="sendMessage()">
-        <mat-form-field class="example-full-width">
-            <mat-label>Message</mat-label>
-            <input required matInput placeholder="Enter your message here" [(ngModel)]="currentMessage"
-                name="currentMessage">
-        </mat-form-field>
+    <div>
+        <form (submit)="sendMessage()">
+            <mat-form-field class="example-full-width">
+                <mat-label>Message</mat-label>
+                <input required matInput placeholder="Enter your message here" [(ngModel)]="currentMessage"
+                    name="currentMessage">
+            </mat-form-field>
 
-        <button type="submit" mat-raised-button color="primary"> Send </button>
-    </form>
+
+            <button type="submit" mat-raised-button color="primary"> Send </button>
+            <button mat-raised-button color="primary" (click)="autoScrollClicked()" class="autoscroll">
+                <div *ngIf="autoScrolling">Autoscroll is active</div>
+                <div *ngIf="!autoScrolling">Autoscroll is inactive</div>
+            </button>
+        </form>
+
+
+    </div>
 
 
 
